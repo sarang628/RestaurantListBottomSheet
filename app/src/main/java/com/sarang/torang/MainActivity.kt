@@ -12,7 +12,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import com.sarang.torang.repository.FindRepository
 import com.sarang.torang.repository.test.FindRepositoryTest
-import com.sarang.torang.ui.theme.RestaurantListBottomSheetTheme
+import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            RestaurantListBottomSheetTheme {
+            TorangTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     CompositionLocalProvider(LocalRestaurantItemImageLoader provides CustomRestaurantItemImageLoader) {
                         Box(Modifier.padding(innerPadding)){
