@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="VcsDirectoryMappings" defaultProject="true" />
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/src/main/java/com/sarang/torang/di/image" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/src/main/java/com/sarang/torang/di/pinchzoom" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/src/main/java/com/sarang/torang/di/repository" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/src/main/java/com/sarang/torang/di/restaurant_list_bottom_sheet_di" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/src/main/java/com/sarang/torang/di/torang_network_di" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/gradle/TorangToml" vcs="Git" />
+  </component>
 </project>
