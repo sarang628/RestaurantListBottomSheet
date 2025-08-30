@@ -10,35 +10,41 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.runtime.getValue
 
-@Preview
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun RestaurantListBottomSheet(viewModel: RestaurantListBottomSheetViewModel = hiltViewModel(), content: @Composable (PaddingValues) -> Unit = {}) {
+fun RestaurantListBottomSheet(modifier : Modifier,
+                              viewModel: RestaurantListBottomSheetViewModel = hiltViewModel(),
+                              scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(),
+                              sheetPeekHeight: Dp = BottomSheetDefaults.SheetPeekHeight,
+                              content: @Composable (PaddingValues) -> Unit = {}) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     BottomSheetScaffold(
         modifier = Modifier.fillMaxSize(),
-        sheetContent = { RestaurantList(restaurantList = uiState) },
-        sheetPeekHeight = BottomSheetDefaults.SheetPeekHeight,
-        content = content
-    )
+        scaffoldState = scaffoldState,
+        sheetContent = { RestaurantList(modifier = modifier, restaurantList = uiState) },
+        sheetPeekHeight = sheetPeekHeight,
+        content = content )
 }
 
 @Preview
 @Composable
-fun RestaurantList(restaurantList : List<RestaurantItemUiState> = listOf()){
-    LazyColumn(Modifier.height(500.dp)) {
+fun RestaurantList(modifier : Modifier, restaurantList : List<RestaurantItemUiState> = listOf()){
+    LazyColumn(modifier) {
         items(restaurantList.size) {
             Column {
                 RestaurantItem(restaurantList.get(it))
