@@ -44,7 +44,7 @@ fun RestaurantListBottomSheet(modifier : Modifier,
         modifier = Modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
         sheetSwipeEnabled = false,
-        sheetContent = { RestaurantList(modifier = modifier, restaurantList = uiState, onClickRestaurantName = onClickRestaurantName, onClickRating = onClickRating, onClickRatingCount = onClickRatingCount, onClickPrice = onClickPrice, onClickFoodType = onClickFoodType, onClickOpen = onClickOpen, onClickCloses = onClickCloses, onClickImage = onClickImage) },
+        sheetContent = { RestaurantList(modifier = modifier, restaurantList = uiState, onClickRestaurantName = { onClickRestaurantName.invoke(it); viewModel.setRestaurant(it) }, onClickRating = onClickRating, onClickRatingCount = onClickRatingCount, onClickPrice = onClickPrice, onClickFoodType = onClickFoodType, onClickOpen = onClickOpen, onClickCloses = onClickCloses, onClickImage = onClickImage) },
         sheetPeekHeight = sheetPeekHeight,
         content = content )
 }
@@ -73,7 +73,10 @@ fun RestaurantList(modifier : Modifier, restaurantList : List<RestaurantItemUiSt
                     onClickCloses = { onClickCloses.invoke(restaurantList[it].restaurantId) },
                     onClickImage = { onClickImage.invoke(restaurantList[it].restaurantId, it) },
                 )
-                Spacer(Modifier.height(4.dp).fillMaxWidth().background(Color(0xEEEEEEEE)))
+                Spacer(Modifier
+                    .height(4.dp)
+                    .fillMaxWidth()
+                    .background(Color(0xEEEEEEEE)))
             }
         }
     }
