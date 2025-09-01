@@ -1,5 +1,6 @@
 package com.sarang.torang
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -23,6 +24,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 
 data class RestaurantItemUiState(
+    val restaurantId : Int = 0,
     val restaurantName : String = "",
     val rating : Float = 0.0f,
     val ratingCount : Int = 0,
@@ -49,23 +51,52 @@ val RestaurantItemUiState.Companion.Sample : RestaurantItemUiState get() =
 
 @Preview
 @Composable
-fun RestaurantItem(uiState: RestaurantItemUiState = RestaurantItemUiState.Companion.Sample){
+fun RestaurantItem(uiState: RestaurantItemUiState = RestaurantItemUiState.Companion.Sample,
+                   onClickRestaurantName : () -> Unit = {},
+                   onClickRating : () -> Unit = {},
+                   onClickRatingCount : () -> Unit = {},
+                   onClickPrice : () -> Unit = {},
+                   onClickFoodType : () -> Unit = {},
+                   onClickOpen : () -> Unit = {},
+                   onClickCloses : () -> Unit = {},
+                   onClickImage : (Int) -> Unit = {}){
     ConstraintLayout(modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 12.dp), constraintSet = restaurantItemConstraintSet) {
-        Text(modifier = Modifier.layoutId("restaurantName"),text = uiState.restaurantName,      fontSize = 18.sp)
-        Text(modifier = Modifier.layoutId("rating"),        text = uiState.rating.toString(),   fontSize = 14.sp)
-        Text(modifier = Modifier.layoutId("ratingCount"),   text = "(${uiState.ratingCount})",  fontSize = 14.sp, color = Color.Gray)
-        Text(modifier = Modifier.layoutId("dot"),           text = "*",                         fontSize = 14.sp, color = Color.Gray)
-        Text(modifier = Modifier.layoutId("price"),         text = uiState.price,               fontSize = 14.sp, color = Color.Gray)
-        Text(modifier = Modifier.layoutId("dot1"),          text = "*",                         fontSize = 14.sp, color = Color.Gray)
-        Text(modifier = Modifier.layoutId("foodType"),      text = uiState.foodType,            fontSize = 14.sp, color = Color.Gray)
-        Text(modifier = Modifier.layoutId("open"),          text = "Open",                      fontSize = 14.sp, color = Color(0xFF4FA267))
-        Text(modifier = Modifier.layoutId("dot2"),          text = "*",                         fontSize = 14.sp, color = Color.Gray)
-        Text(modifier = Modifier.layoutId("closes"),        text = uiState.closes,              fontSize = 14.sp, color = Color.Gray)
+        Text(modifier = Modifier.layoutId("restaurantName").clickable(onClick = onClickRestaurantName),
+            text = uiState.restaurantName,      fontSize = 18.sp)
+
+        Text(modifier = Modifier.layoutId("rating").clickable(onClick = onClickRating),
+            text = uiState.rating.toString(),   fontSize = 14.sp)
+
+        Text(modifier = Modifier.layoutId("ratingCount").clickable(onClick = onClickRatingCount),
+            text = "(${uiState.ratingCount})",  fontSize = 14.sp, color = Color.Gray)
+
+        Text(modifier = Modifier.layoutId("dot"),
+            text = "*",                         fontSize = 14.sp, color = Color.Gray)
+
+        Text(modifier = Modifier.layoutId("price").clickable(onClick = onClickPrice),
+            text = uiState.price,               fontSize = 14.sp, color = Color.Gray)
+
+        Text(modifier = Modifier.layoutId("dot1"),
+            text = "*",                         fontSize = 14.sp, color = Color.Gray)
+
+        Text(modifier = Modifier.layoutId("foodType").clickable(onClick = onClickFoodType),
+            text = uiState.foodType,            fontSize = 14.sp, color = Color.Gray)
+
+        Text(modifier = Modifier.layoutId("open").clickable(onClick = onClickOpen),
+            text = "Open",                      fontSize = 14.sp, color = Color(0xFF4FA267))
+
+        Text(modifier = Modifier.layoutId("dot2"),
+            text = "*",                         fontSize = 14.sp, color = Color.Gray)
+
+        Text(modifier = Modifier.layoutId("closes").clickable(onClick = onClickCloses),
+            text = uiState.closes,              fontSize = 14.sp, color = Color.Gray)
+
         Icon(modifier = Modifier.layoutId("ratingIcon").size(13.dp), imageVector = Icons.Default.Star, contentDescription = "")
+
         LazyRow(modifier = Modifier.layoutId("imageList"), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             items(uiState.imageList.size) {
                 Column {
-                    LocalRestaurantItemImageLoader.current.invoke(Modifier.size(120.dp).clip(RoundedCornerShape(16.dp)), uiState.imageList[it] , null, null, ContentScale.Crop)
+                    LocalRestaurantItemImageLoader.current.invoke(Modifier.size(120.dp).clip(RoundedCornerShape(16.dp)).clickable(onClick = {onClickImage.invoke(it)}), uiState.imageList[it] , null, null, ContentScale.Crop)
                 }
             }
         }

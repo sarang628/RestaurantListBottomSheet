@@ -16,6 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.CompositionLocalProvider
@@ -51,7 +52,16 @@ class MainActivity : ComponentActivity() {
             }
 
             TorangTheme {
-                Scaffold(modifier = Modifier.fillMaxSize(), floatingActionButton = { FloatingActionButton({coroutine.launch { scaffoldState.bottomSheetState.expand() }}){ Icon(Icons.AutoMirrored.Default.List, "") } }) { innerPadding ->
+                Scaffold(modifier = Modifier.fillMaxSize(), floatingActionButton = { FloatingActionButton(
+                    onClick = {coroutine.launch {
+                        if (scaffoldState.bottomSheetState.currentValue != SheetValue.Expanded) {scaffoldState.bottomSheetState.expand()}
+                        else {
+                            coroutine.launch {
+                                scaffoldState.bottomSheetState.partialExpand()
+                            }
+                        }
+                    }})
+                { Icon(Icons.AutoMirrored.Default.List, "") } }) { innerPadding ->
                     CompositionLocalProvider(LocalRestaurantItemImageLoader provides CustomRestaurantItemImageLoader) {
                         Box(Modifier.padding(innerPadding)){
                             RestaurantListBottomSheet(
